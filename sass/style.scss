@@ -1,0 +1,886 @@
+@charset "utf-8";
+
+$color-main:#3EA1D1;
+$color-text:#333;
+$color-inline:#E7728E;
+
+$layout-width-inner:1280px;
+//ブレークポイントの定義
+$breakpoints:(
+'sp': '(max-width:767px)',
+'tab': '(min-width:768px)',
+);
+//メディアクエリ用のmixinを定義。
+@mixin mq($breakpoint: tab){
+  @media #{map-get($breakpoints,$breakpoint)}{
+    @content;
+}
+}
+//
+//呼び出し
+@include mq('sp'){
+  .is-pc{
+    display: none;
+  }
+}
+@include mq('tab'){
+  .is-sp{
+    display: none;
+  }
+}
+
+body{
+  font-family:'Hiragino Mincho Pro W3','ヒラギノ明朝 ProN W3',serif;
+  font-size:16px;
+  color:$color-text;
+  line-height:(27 / 16);
+}
+img{
+  width: 100%;
+}
+.inner{
+  max-width:1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  box-sizing:content-box;
+  @include mq('sp'){
+    padding:0 15px;
+  }
+}
+.section{
+  margin-top: 160px;
+  @include mq('sp'){
+    margin-top: 96px;
+  }
+}
+
+.head{
+  font-size:40px;
+  font-weight:bold;
+  text-align: center;
+  line-height: 1;
+  margin-bottom:64px;
+  @include mq('sp'){
+    font-size:30px;
+    margin-bottom: 46px;
+  }
+  &::after{
+  content:"";
+  display:block;
+  height:1px;
+  width:60px;
+  background:$color-main;
+  margin:16px auto 0;
+  }
+}
+.util-link{
+  font-size:14px;
+  letter-spacing: .1em;
+  color: $color-main;
+  border:1px solid $color-main;
+  background: #fff;
+  display:inline-block;
+  padding: 10px 54px;
+  transition:background-color .4s,color .4s;
+  @include mq('tab'){
+    &:not(.-submit){
+      &:hover{
+        background:$color-main;
+        color:#fff;
+      }
+    }
+  }
+  &.-active{
+    background:$color-main;
+    color:#fff;
+  }
+}
+
+// ----------------------------
+// header
+// ----------------------------
+.header{
+  background:#fff;
+  position:fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index:100;
+
+  .drawer-hamburger{
+    .drawer--right &{
+      right:3px;
+    }
+  }
+  .drawer-hamburger-icon{
+    background-color: $color-main;
+    //drawer-hamburger-iconクラスの前に.drawer-openクラスがついているもの
+    .drawer-open &{
+      // これで開いた時のバツボタンの真ん中の線を消す
+      background-color:transparent;//透明
+    }
+    &::before,&::after{
+      background-color: $color-main;
+    }
+  }
+}
+.header__inner{
+  display:flex;
+  align-items:center;
+  @include mq('sp'){
+    height:60px;
+  }
+}
+.header__logo{
+  width:120px;
+}
+.header-nav{
+  margin-left: auto;
+  @include mq('sp'){
+    top:60px;
+    background-color: $color-main;
+    padding: 24px 0;
+  }
+}
+.header-nav-list{
+  @include mq('tab'){
+    display: flex;
+  }
+}
+.header-nav-item{
+  @include mq('tab'){
+    // 2番目の要素から指定する
+    & + &{
+      margin-left: 46px;
+    }
+  }
+}
+.header-nav-item-link{
+  display: block;
+  color:$color-text;
+  height:70px;
+  line-height: 70px;
+  letter-spacing: .1em;
+  @include mq('sp'){
+    color:#fff;
+    font-size: 18px;
+    text-align:right;
+    margin-right:15px;
+    height:60px;
+    line-height: 60px;
+  }
+  @include mq('tab'){
+    transition:color .4s;
+    &:hover{
+      color:$color-main;
+    }
+  }
+}
+.main{
+  padding-top: 70px;
+  @include mq('sp'){
+    padding-top: 60px;
+  }
+}
+// -------------------------------------
+// top
+// -------------------------------------
+.top{
+  position: relative;
+}
+.main__visual__img{
+  @include mq('tab'){
+    // 660/1200 px で55%
+    padding-top: 55%;
+    // 990/1200 82.5%
+    background:url(../img/top.png) top right / 82.5% no-repeat;
+  }
+  @include mq('sp'){
+    // 414/345 px で120% 縦/横
+    padding-top: 120%;
+    background:url(../img/sp/top.png) center center/ cover  no-repeat;
+  }
+}
+
+.main__visual__content{
+  @include mq('sp'){
+    margin-top: 31px;
+  }
+  @include mq('tab'){
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background-color:#fff;
+    padding:82px 44px 90px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  h1{
+    font-size:26px;
+    line-height:(44 / 26);
+    margin-bottom: 15px;
+    font-weight:bold;
+  }
+  p{
+    line-height:(27 / 16);
+  }
+}
+
+// -------------------------------------
+// concept
+// -------------------------------------
+.concept__content{
+  @include mq('tab'){
+    display: flex;
+    align-items: center;
+  }
+}
+.concept__img{
+  @include mq('tab'){
+    flex: 0 0 50%;
+  }
+}
+.concept__right{
+  @include mq('sp'){
+    margin-top: 35px;
+  }
+  @include mq('tab'){
+    flex: 0 1 50%;
+    margin-left: 6.667%;
+  }
+  h1{
+    font-size:20px;
+    font-weight:bold;
+  }
+  p{
+    margin-top: 30px;
+    @include mq('sp'){
+      margin-top: 20px;
+    }
+  }
+}
+
+// -------------------------------------
+// feature
+// -------------------------------------
+.feature{
+  @include mq('sp'){
+    max-width:340px;
+  
+  }
+}
+.feature__head{
+
+}
+.feature__content{
+
+}
+.feature__list{
+  @include mq('tab'){
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.feature__item{
+  @include mq('tab'){
+    flex: 0 0 28.3333%;
+  }
+  & + &{
+    @include mq('sp'){
+      margin-top: 49px;
+    }
+  }
+}
+.feature__item__link{
+  display:block;
+  color:$color-text;
+  background: #fff;
+  box-shadow: 3px 3px 15px rgba(96,96,96,0.16);
+  @include mq('tab'){
+    &:hover{
+      .feature__item__img > img{
+        transform:scale(1.05);
+        transition:.4s;
+      }
+    }
+  }
+}
+.feature__item__img{
+  overflow: hidden;
+  > img{
+    transition: transform .4s;
+}
+}
+.feature__item__body{
+  text-align: center;
+  font-weight:bold;
+  padding: 26px 12px;
+}
+
+// -------------------------------------
+// about
+// -------------------------------------
+.about{
+  height:478px;
+  color:#fff;
+  padding: 120px 0;
+  position: relative;
+  //画像が明るくて文字が見づらい。暗めのフィルターを乗せる。
+  &::before{
+    content:"";
+    display: block;
+    position: absolute;
+    background: rgba(0,0,0,.12);
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+  }
+  @include mq('tab'){
+    background: url(../img/bg.png)no-repeat center center / cover;
+  }
+  @include mq('sp'){
+    background: url(../img/sp/bg.png)no-repeat center center / cover;
+    padding: 176px 0 52px;
+  }
+}
+.about__inner{
+  //position relativeにより、文字がフィルターの上にくる
+  position: relative;
+}
+.about__title{
+  font-size:22px;
+  font-weight: bold;
+  @include mq('sp'){
+    font-size:20px;
+  }
+}
+.about__text{
+  margin-top: 28px;
+  @include mq('sp'){
+    margin-top: 22px;
+    font-size: 14px;
+    line-height: (24 / 14);
+  }
+}
+// -------------------------------------
+// products
+// -------------------------------------
+.products{
+  max-width: 940px;
+  @include mq('sp'){
+    max-width:340px;
+    padding:0 58px;
+  }
+}
+.products__list{
+  @include mq('tab'){
+    display:flex;
+    justify-content: space-between;
+  }
+}
+.products__item{
+  @include mq('tab'){
+    flex: 0 0 27.6%;
+  }
+  & + &{
+    @include mq('sp'){
+      margin-top: 40px;
+    }
+  }
+}
+.products__item__link{
+  display: block;
+  color:$color-text;
+  font-size:14px;
+
+  @include mq('tab'){
+    &:hover{
+      .products__item__img > img{
+        transform:scale(1.05);
+      }
+    }
+  }
+}
+
+.products__item__img{
+  overflow: hidden;
+  > img{
+    transition: transform .4s;
+  }
+
+}
+.products__item__body{
+  margin-top: 22px;
+}
+.products__item__title{
+
+}
+.products__item__cost{
+  color:#989898;
+  margin-top: 10px;
+}
+.products__footer{
+  text-align: center;
+  margin-top: 44px;
+}
+// -------------------------------------
+// news
+// -------------------------------------
+.news{
+  max-width:1040px;
+  @include mq('sp'){
+    padding: 0 32px;
+  }
+}
+.news__head{
+}
+.news__list{
+}
+.news__item{
+  border-bottom: 1px solid #e0e0e0;
+}
+.news__item__link{
+  color:$color-text;
+  font-size:14px;
+  padding: 22px 0;
+  display:block;
+  @include mq('tab'){
+    display:flex;
+    align-items: center;
+  }
+  @include mq('tab'){
+    &:hover{
+      .news__item__img > img{
+        transform:scale(1.05);
+      }
+    }
+  }
+}
+.news__item__header{
+  @include mq('tab'){
+    flex:0 0 260px;
+  }
+  
+}
+.news__item__img{
+  overflow: hidden;
+  > img{
+    transition: transform .4s;
+  }
+  // background: #000;
+  // padding-top:(160 / 260);
+  // position: relative;
+  // overflow: hidden;
+  // > img{
+  //   position: absolute;
+  //   top:50%;
+  //   left:50%;
+  //   width:100%;
+  // }
+}
+.news__item__body{
+  @include mq('tab'){
+    flex:0 1 100%;
+    margin-left: 40px;
+  }
+  @include mq('sp'){
+    margin-top:21px;
+  }
+}
+.news__item__date{
+
+}
+.news__item__title{
+  font-size:18px;
+  font-weight: bold;
+  top: 4px;
+  @include mq('sp'){
+    font-size: 16px;
+  }
+}
+.news__item__text{
+ color:#888;
+ margin-top: 16px;
+ line-height: (24 / 14);
+}
+.news__footer{
+  text-align: center;
+  margin-top: 48px;
+}
+
+// -------------------------------------
+// concept2
+// -------------------------------------
+.concept2__content{
+  @include mq('tab'){
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+  }
+}
+.concept2__img{
+  @include mq('tab'){
+    flex: 0 0 50%;
+  }
+}
+.concept2__right{
+  @include mq('tab'){
+    flex: 0 1 50%;
+    margin-right: 6.667%;
+  }
+  @include mq('sp'){
+    margin-top: 34px;
+  }
+  h1{
+    font-size:28px;
+    font-weight:bold;
+    @include mq('sp'){
+      font-size: 20px;
+    }
+  }
+  p{
+    margin-top: 30px;
+    @include mq('sp'){
+      font-size: 14px;
+      line-height: (24 / 14);
+    }
+  }
+}
+
+// -------------------------------------
+// contact
+// -------------------------------------
+.contact{
+  background:url(../img/contact.png)center center/cover;
+  margin-top: 225px;
+  padding: 72px 40px 86px;
+  @include mq('sp'){
+    margin-top: 92px;
+    padding: 56px 28px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea{
+    width:100%;
+    border:0;
+    font-size:12px;
+    padding: .2em .5em;
+    box-shadow: 5px 6px 15px rgba(96, 96, 96, 0.16);
+    border-radius:2px;
+  }
+  input[type="text"],
+  input[type="email"]{
+    height:40px;
+  }
+  textarea{
+    min-height:122px;
+    //テキストエリアは幅や高さが変えられてしまうので
+    //高さのみ変えられるようにする。
+    resize:vertical;
+  }
+}
+.contect__head{
+  color:$color-main;
+  @include mq('sp'){
+    margin-bottom: 26px;
+  }
+}
+.contact__text{
+  font-size:14px;
+  letter-spacing: .1em;
+  text-align: center;
+}
+.contact__text__inline{
+  font-size:16px;
+  color:$color-inline;
+}
+.contact__list{
+  max-width:510px;
+  margin:18px auto 0;
+}
+.contact__item{
+  @include mq('tab'){
+    display: flex;
+  }
+  & + &{
+    margin-top: 32px;
+  }
+}
+.contact__item__title{
+  background:#3EA1D1B3;
+  color:#fff;
+  font-size:18px;
+  height:40px;
+  line-height: 40px;
+  text-align: center;
+  padding-left: 10px;
+  position: relative;
+  @include mq('tab'){
+    //320pxから余った部分を使う
+    flex: 0 1 100%;
+  }
+  @include mq('tab'){
+    &::after{
+      content:"";
+      display:block;
+      position: absolute;
+      //三角形作成ツール
+      top:0;
+      right:-8px;
+      //border-style以下をコピペ
+      border-style: solid;
+      border-width: 20px 0 20px 8px;
+      border-color: transparent transparent transparent #3EA1D1B3;
+    }
+  }
+  @include mq('sp'){
+    display:inline-block;
+    font-size: 14px;
+    line-height: 32px;
+    height:32px;
+    padding:0 16px;
+    margin-bottom: 3px;
+  }
+}
+.contact__item__inline{
+  font-size:12px;
+  color:$color-inline;
+  vertical-align: super;
+  line-height:1;
+  @include mq('sp'){
+    font-size: 10px;
+  }
+}
+.contact__item__input{
+  @include mq('tab'){
+    flex:0 0 320px;
+    margin-left: 18px;
+  }
+}
+.contact__radio__wrap{
+  //普通のflexだと要素が横幅いっぱいに
+  //なってしまうのでinline-flexとする
+  display: inline-flex;
+  border:1px solid #fff;
+  border-radius:1px;
+  box-shadow: 5px 5px 15px rgba(96, 96, 96, 0.16);
+}
+
+.contact__radio{
+  position: relative;
+}
+.contact__radio__input{
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  //チェックが入っているラジオボタンの次のパーツ
+  &:checked + .contact__radio__part{
+    background:$color-main;
+    color:#fff;
+    border-radius:1px;
+  }
+
+  &:focus + .contact__radio__part{
+    outline: -webkit-focus-ring-color auto 1px;
+  }
+}
+.contact__radio__part{
+  //spanで作っているのでdisplay:block;
+  display:block;
+  background:#fff;
+  color:$color-main;
+  height:38px;
+  line-height: 38px;
+  width:80px;
+  text-align: center;
+  transition:background-color .4s,color .4s;
+}
+
+.contact__footer{
+  margin-top: 20px;
+  text-align: center;
+  @include mq('sp'){
+    margin-top: 14px;
+  }
+}
+.contact__privacy{
+  position: relative;
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.contact__privacy__input{
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+
+  &:checked + .contact__privacy__part{
+    width:10px;
+    border-top:0;
+    border-left:0;
+    background: transparent;
+    transform:rotate(45deg);
+    top: -5px;
+    left: 5px;
+  }
+  &:focus + .contact__privacy__part{
+    outline: -webkit-focus-ring-color auto 1px;
+  }
+  &:checked:focus + .contact__privacy__part{
+    outline: none;
+  }
+}
+.contact__privacy__part{
+  display:inline-block;
+  width: 22px;
+  height: 22px;
+  border:1px solid $color-main;
+  background:#fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition:all .2s;
+}
+.contact__privacy__link{
+  color:$color-main;
+  text-decoration: underline;
+}
+.contact__footer__submit{
+  margin-top: 46px;
+  @include mq('sp'){
+    margin-top: 24px;
+  }
+}
+
+.contact-message{
+  text-align: center;
+  margin-top: 60px;
+  display: none;
+  
+  &.-error{
+    color:#f00;
+  }
+}
+
+// -------------------------------------
+// modal
+// -------------------------------------
+.js-open-button{
+
+}
+.js-close-button{
+
+}
+.modal-contact__icon{
+
+}
+.modal-contact__background{
+
+}
+
+.modal-contact{
+
+}
+.modal-contact__head{
+
+}
+
+.modal-contact__content{
+
+}
+.modal-contact__subhead{
+
+}
+.modal-contact__text{
+
+}
+
+// -------------------------------------
+// footer
+// -------------------------------------
+footer{
+  background:#f7f7f7;
+  padding: 42px 40px 12px;
+  @include mq('sp'){
+    padding:36px 0 14px;
+  }
+}
+.footer__logo{
+  width: 120px;
+  margin: 0 auto;
+}
+.footer__nav__list{
+  margin-top: 8px;
+  @include mq('sp'){
+    text-align: center;
+    margin-top: 16px;
+  }
+  @include mq('tab'){
+    display: flex;
+    justify-content: center;
+  }
+}
+.footer__nav__item{
+  margin-top: 8px;
+  & + &{
+    @include mq('tab'){
+      margin-left: 30px;
+    }
+  }
+}
+.footer__nav__item__link{
+  font-size: 12px;
+  color:$color-text;
+  display: block;
+  padding: 1em 0;
+  @include mq('sp'){
+    padding:.3em 0;
+    line-height: 12px;
+  }
+  @include mq('tab'){
+    transition:opacity .4s;
+    &:hover{
+      opacity: .7;
+  }
+}
+}
+.footer__sns__list{
+  text-align: center;
+  @include mq('sp'){
+    margin-top: 14px;
+  }
+}
+.footer__sns__item{
+  display: inline-block;
+  & + &{
+    margin-left: 10px;
+  }
+}
+.footer__sns__item__link{
+  color:$color-main;
+  font-size:24px;
+  display:block;
+  padding: 0.1em 0.5em;
+  @include mq('tab'){
+    transition:opacity .4s;
+    &:hover{
+      opacity: .7;
+  }
+}
+}
+.footer__copy{
+  color:#888;
+  font-size: 12px;
+  text-align:center;
+  margin-top: 10px;
+
+  @include mq('sp'){
+    margin-top: 5px;
+  }
+}
